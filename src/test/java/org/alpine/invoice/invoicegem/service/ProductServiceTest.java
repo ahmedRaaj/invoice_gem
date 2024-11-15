@@ -52,16 +52,27 @@ class ProductServiceTest {
         ProductDto productDto = Instancio.create(ProductDto.class);
         categoryRepository.save(new Category(productDto.getCategoryName()));
 
-
-
         Product product = productService.insertProductFrom(productDto);
 
         Assertions.assertThat(productRepository.count()).isEqualTo(1);
         Assertions.assertThat(categoryRepository.count()).isEqualTo(1);
-
         Assertions.assertThat(product.getId()).isNotNull();
         Assertions.assertThat(product.getCategory().getId()).isNotNull();
         Assertions.assertThat(product.getCategory().getName()).isEqualTo(productDto.getCategoryName());
+
+    }
+
+    @Test
+    void productDeletedWithoutCategory() {
+        ProductDto productDto = Instancio.create(ProductDto.class);
+        categoryRepository.save(new Category(productDto.getCategoryName()));
+
+        Product product = productService.insertProductFrom(productDto);
+
+        productService.deleteProduct(product.getId());
+
+        Assertions.assertThat(productRepository.count()).isEqualTo(0);
+        Assertions.assertThat(categoryRepository.count()).isEqualTo(1);
 
     }
 }

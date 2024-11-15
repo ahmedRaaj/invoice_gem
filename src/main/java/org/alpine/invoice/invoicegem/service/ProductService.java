@@ -29,4 +29,8 @@ public class ProductService {
         product.setCategory(category.get());
        return productRepository.save(product);
     }
+
+    public void deleteProduct(Long id) {
+        productRepository.deleteById(id);
+    }
 }

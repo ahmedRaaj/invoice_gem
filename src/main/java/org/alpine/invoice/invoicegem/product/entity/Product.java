@@ -1,14 +1,13 @@
-package org.alpine.invoice.invoicegem.entity;
+package org.alpine.invoice.invoicegem.product.entity;
 
 
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.Entity;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.MappedSuperclass;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+import org.alpine.invoice.invoicegem.entity.AlpineEntity;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 
 @Entity
 @Getter
@@ -20,5 +19,8 @@ public class Product extends AlpineEntity {
     private BigDecimal price;
     private String imagePath;
     @ManyToOne(cascade = CascadeType.PERSIST)
+    @JoinColumn(name = "category_id")
     private Category category;
+
+    private LocalDateTime createdAt = LocalDateTime.now();
 }

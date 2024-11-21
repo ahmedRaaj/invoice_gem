@@ -1,4 +1,4 @@
-package org.alpine.invoice.invoicegem.dto;
+package org.alpine.invoice.invoicegem.product.dto;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;

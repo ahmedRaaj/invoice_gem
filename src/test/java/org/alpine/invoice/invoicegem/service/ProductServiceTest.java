@@ -1,22 +1,17 @@
 package org.alpine.invoice.invoicegem.service;
 
 
-import org.alpine.invoice.invoicegem.dto.ProductDto;
-import org.alpine.invoice.invoicegem.dto.ProductMapper;
-import org.alpine.invoice.invoicegem.entity.Category;
-import org.alpine.invoice.invoicegem.entity.Product;
+import org.alpine.invoice.invoicegem.product.dto.ProductDto;
+import org.alpine.invoice.invoicegem.product.entity.Category;
+import org.alpine.invoice.invoicegem.product.entity.Product;
 import org.alpine.invoice.invoicegem.repository.CategoryRepository;
 import org.alpine.invoice.invoicegem.repository.ProductRepository;
 import org.assertj.core.api.Assertions;
 import org.instancio.Instancio;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
-import org.mapstruct.factory.Mappers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 
 @DataJpaTest
 class ProductServiceTest {
@@ -73,6 +68,18 @@ class ProductServiceTest {
 
         Assertions.assertThat(productRepository.count()).isEqualTo(0);
         Assertions.assertThat(categoryRepository.count()).isEqualTo(1);
+
+    }
+
+    @Test
+    void productInsertedWithoutCategory() {
+        ProductDto productDto = Instancio.create(ProductDto.class);
+        productDto.setCategoryName(null);
+
+        Product product = productService.insertProductFrom(productDto);
+
+        Assertions.assertThat(productRepository.count()).isEqualTo(1);
+        Assertions.assertThat(categoryRepository.count()).isEqualTo(0);
 
     }
 }

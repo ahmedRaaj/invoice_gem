@@ -1,8 +1,7 @@
-package org.alpine.invoice.invoicegem.dto;
+package org.alpine.invoice.invoicegem.product.dto;
 
-import org.alpine.invoice.invoicegem.entity.Product;
+import org.alpine.invoice.invoicegem.product.entity.Product;
 import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
 import org.mapstruct.factory.Mappers;
 
 @Mapper

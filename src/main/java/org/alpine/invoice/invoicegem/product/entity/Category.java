@@ -1,17 +1,17 @@
-package org.alpine.invoice.invoicegem.entity;
+package org.alpine.invoice.invoicegem.product.entity;
 
 import jakarta.persistence.Entity;
-import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import lombok.Getter;
 import lombok.Setter;
+import org.alpine.invoice.invoicegem.entity.AlpineEntity;
 
 import java.util.List;
 
 @Entity
 @Setter
 @Getter
-public class Category extends AlpineEntity{
+public class Category extends AlpineEntity {
 
     private String name;
     private String description;

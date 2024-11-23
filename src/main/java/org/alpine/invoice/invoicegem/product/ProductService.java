@@ -41,7 +41,7 @@ public class ProductService {
     }
 
     public void insertProductRecordIfMissing(List<ProductDto> products) {
-        products.stream().filter(dto->isThisNewProduct(dto)).forEach(this::insertProductAndCategoryFrom);
+        products.stream().filter(this::isThisNewProduct).forEach(this::insertProductAndCategoryFrom);
     }
 
     private boolean isThisNewProduct(ProductDto dto) {

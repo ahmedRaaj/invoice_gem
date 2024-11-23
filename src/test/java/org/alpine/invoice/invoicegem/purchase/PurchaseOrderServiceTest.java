@@ -1,5 +1,6 @@
 package org.alpine.invoice.invoicegem.purchase;
 
+import org.alpine.invoice.invoicegem.constant.PurchaseOrderStatus;
 import org.alpine.invoice.invoicegem.inventory.InventoryService;
 import org.alpine.invoice.invoicegem.inventory.repository.InventoryItemEntityRepository;
 import org.alpine.invoice.invoicegem.product.ProductService;
@@ -71,7 +72,7 @@ class PurchaseOrderServiceTest {
                 satisfiesExactly( purchaseOrder ->
                         Assertions.assertThat(purchaseOrder.getPurchaseOrderLineItems())
                                 .extracting(PurchaseOrderLineItem::getTotalPrice)
-                .containsOnly(poDto.getLineItems().get(0).getTotalPrice()));
+                .containsOnly(poDto.getLineItems().getFirst().getTotalPrice()));
 
     }
 
@@ -113,6 +114,8 @@ class PurchaseOrderServiceTest {
         Long poId = purchaseOrderService.createPurchaseOrder(purchseOrderDto);
         purchaseOrderService.shelvePurchasedItems(poId);
         Assertions.assertThat(inventoryItemEntityRepository.count()).isEqualTo(purchseOrderDto.getLineItems().size());
+       Assertions.assertThat( purchaseOrderRepository.findById(poId).get().getStatus())
+               .isEqualTo(PurchaseOrderStatus.GOODS_SHELVED);
 
 
 

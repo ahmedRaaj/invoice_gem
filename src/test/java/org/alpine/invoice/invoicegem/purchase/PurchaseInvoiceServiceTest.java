@@ -1,6 +1,5 @@
 package org.alpine.invoice.invoicegem.purchase;
 
-import org.alpine.invoice.invoicegem.constant.PurchaseOrderStatus;
 import org.alpine.invoice.invoicegem.inventory.InventoryService;
 import org.alpine.invoice.invoicegem.inventory.entity.InventoryItemEntity;
 import org.alpine.invoice.invoicegem.inventory.entity.InventoryItemTransactionEntity;
@@ -13,8 +12,8 @@ import org.alpine.invoice.invoicegem.product.repository.CategoryRepository;
 import org.alpine.invoice.invoicegem.product.repository.ProductRepository;
 import org.alpine.invoice.invoicegem.purchase.dto.PurchaseOrderDto;
 import org.alpine.invoice.invoicegem.purchase.dto.PurchaseOrderLineItemDto;
-import org.alpine.invoice.invoicegem.purchase.entity.PurchaseOrder;
-import org.alpine.invoice.invoicegem.purchase.entity.PurchaseOrderLineItem;
+import org.alpine.invoice.invoicegem.purchase.entity.PurchaseInvoice;
+import org.alpine.invoice.invoicegem.purchase.entity.PurchaseInvoiceLineItem;
 import org.alpine.invoice.invoicegem.util.TestData;
 import org.assertj.core.api.Assertions;
 import org.instancio.Instancio;
@@ -32,11 +31,11 @@ import static org.alpine.invoice.invoicegem.util.TestData.*;
 
 @DataJpaTest
 @Import({ProductService.class, InventoryService.class})
-class PurchaseOrderServiceTest {
+class PurchaseInvoiceServiceTest {
 
 
     @Autowired
-    private PurchaseOrderRepository purchaseOrderRepository;
+    private PurchaseInvoiceRepository purchaseInvoiceRepository;
 
     @Autowired
     ProductRepository productRepository;
@@ -45,7 +44,7 @@ class PurchaseOrderServiceTest {
     @Autowired
     InventoryItemEntityRepository inventoryItemEntityRepository;
 
-    private PurchaseOrderService purchaseOrderService;
+    private PurchaseInvoiceService purchaseInvoiceService;
     @Autowired
     private ProductService productService;
     @Autowired
@@ -53,7 +52,7 @@ class PurchaseOrderServiceTest {
 
     @BeforeEach
     void setUp() {
-        purchaseOrderService = new PurchaseOrderService(purchaseOrderRepository,productService,inventoryService);
+        purchaseInvoiceService = new PurchaseInvoiceService(purchaseInvoiceRepository,productService,inventoryService);
     }
 
     @Test
@@ -62,7 +61,7 @@ class PurchaseOrderServiceTest {
         PurchaseOrderDto poDto = createPurchseOrderDto("test", CATEGORY_NAME);
 
 
-        purchaseOrderService.createPurchaseOrder(poDto);
+        purchaseInvoiceService.createPurchaseOrder(poDto);
 
 
         Assertions.assertThat(productRepository.count()).isEqualTo(1);
@@ -70,12 +69,12 @@ class PurchaseOrderServiceTest {
 
         Assertions.assertThat(productRepository.findAll()).extracting(ProductEntity::getName).containsOnly("test");
         Assertions.assertThat(categoryRepository.findAll()).extracting(CategoryEntity::getName).containsOnly(CATEGORY_NAME);
-        List<PurchaseOrder> allPo = purchaseOrderRepository.findAll();
-        Assertions.assertThat(allPo).extracting(PurchaseOrder::getOrderNumber).containsOnly(poDto.getOrderNumber());
+        List<PurchaseInvoice> allPo = purchaseInvoiceRepository.findAll();
+        Assertions.assertThat(allPo).extracting(PurchaseInvoice::getInvoiceNumber).containsOnly(poDto.getInvoiceNumber());
         Assertions.assertThat(allPo).
                 satisfiesExactly( purchaseOrder ->
-                        Assertions.assertThat(purchaseOrder.getPurchaseOrderLineItems())
-                                .extracting(PurchaseOrderLineItem::getTotalPrice)
+                        Assertions.assertThat(purchaseOrder.getPurchaseInvoiceLineItems())
+                                .extracting(PurchaseInvoiceLineItem::getTotalPrice)
                 .containsOnly(poDto.getLineItems().getFirst().getTotalPrice()));
 
     }
@@ -92,19 +91,19 @@ class PurchaseOrderServiceTest {
         productRepository.save(TestData.createProductWithCategory("test", CATEGORY_NAME));
 
 
-        purchaseOrderService.createPurchaseOrder(poDto);
+        purchaseInvoiceService.createPurchaseOrder(poDto);
 
         Assertions.assertThat(productRepository.count()).isEqualTo(1);
         Assertions.assertThat(categoryRepository.count()).isEqualTo(1);
 
         Assertions.assertThat(productRepository.findAll()).extracting(ProductEntity::getName).containsOnly("test");
         Assertions.assertThat(categoryRepository.findAll()).extracting(CategoryEntity::getName).containsOnly(CATEGORY_NAME);
-        List<PurchaseOrder> allPo = purchaseOrderRepository.findAll();
-        Assertions.assertThat(allPo).extracting(PurchaseOrder::getOrderNumber).containsOnly(poDto.getOrderNumber());
+        List<PurchaseInvoice> allPo = purchaseInvoiceRepository.findAll();
+        Assertions.assertThat(allPo).extracting(PurchaseInvoice::getInvoiceNumber).containsOnly(poDto.getInvoiceNumber());
         Assertions.assertThat(allPo).
                 satisfiesExactly( purchaseOrder ->
-                        Assertions.assertThat(purchaseOrder.getPurchaseOrderLineItems())
-                                .extracting(PurchaseOrderLineItem::getTotalPrice)
+                        Assertions.assertThat(purchaseOrder.getPurchaseInvoiceLineItems())
+                                .extracting(PurchaseInvoiceLineItem::getTotalPrice)
                                 .containsOnly(poLineItem.getTotalPrice()));
 
     }
@@ -115,11 +114,11 @@ class PurchaseOrderServiceTest {
     void testPoItemGettingShelved() {
 
         PurchaseOrderDto purchseOrderDto = createPurchseOrderDto(PRODUCT_NAME, CATEGORY_NAME);
-        Long poId = purchaseOrderService.createPurchaseOrder(purchseOrderDto);
-        purchaseOrderService.shelvePurchasedItems(poId);
+        Long poId = purchaseInvoiceService.createPurchaseOrder(purchseOrderDto);
+        purchaseInvoiceService.shelvePurchasedItems(poId);
         Assertions.assertThat(inventoryItemEntityRepository.count()).isEqualTo(1);
-       Assertions.assertThat( purchaseOrderRepository.findById(poId).get().getStatus())
-               .isEqualTo(PurchaseOrderStatus.GOODS_SHELVED);
+       Assertions.assertThat( purchaseInvoiceRepository.findById(poId).get().getStatus())
+               .isEqualTo(PurchaseInvoiceStatus.GOODS_SHELVED);
 
         List<InventoryItemEntity> inventoryList = inventoryItemEntityRepository.findAll();
         Assertions.assertThat(inventoryList.getFirst().getInventoryItems())

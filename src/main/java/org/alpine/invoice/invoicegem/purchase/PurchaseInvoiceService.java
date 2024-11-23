@@ -1,37 +1,36 @@
 package org.alpine.invoice.invoicegem.purchase;
 
 import lombok.AllArgsConstructor;
-import org.alpine.invoice.invoicegem.constant.PurchaseOrderStatus;
 import org.alpine.invoice.invoicegem.inventory.InventoryService;
 import org.alpine.invoice.invoicegem.product.ProductService;
 import org.alpine.invoice.invoicegem.purchase.dto.PurchaseOrderDto;
-import org.alpine.invoice.invoicegem.purchase.entity.PurchaseOrder;
+import org.alpine.invoice.invoicegem.purchase.entity.PurchaseInvoice;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-import static org.alpine.invoice.invoicegem.purchase.PurchaseOrderMapper.INSTANCE;
+import static org.alpine.invoice.invoicegem.purchase.PurchaseInvoiceMapper.INSTANCE;
 
 @Service
 @AllArgsConstructor
-public class PurchaseOrderService {
-    private final PurchaseOrderRepository purchaseOrderRepository;
+public class PurchaseInvoiceService {
+    private final PurchaseInvoiceRepository purchaseInvoiceRepository;
     private final ProductService productService;
     private final InventoryService inventoryService;
 
 
     public Long createPurchaseOrder(PurchaseOrderDto purchaseOrderDto) {
         productService.insertProductRecordIfMissing(INSTANCE.toProductDtoList(purchaseOrderDto.getLineItems()));
-        PurchaseOrder poEntity = INSTANCE.toPurchaseOrderEntity(purchaseOrderDto);
-        poEntity.setStatus(PurchaseOrderStatus.CREATED);
-        purchaseOrderRepository.save(poEntity);
+        PurchaseInvoice poEntity = INSTANCE.toPurchaseOrderEntity(purchaseOrderDto);
+        poEntity.setStatus(PurchaseInvoiceStatus.CREATED);
+        purchaseInvoiceRepository.save(poEntity);
         return poEntity.getId();
     }
 
     public void shelvePurchasedItems(Long purchaseOrderId) {
-        purchaseOrderRepository.findById(purchaseOrderId).ifPresent(poEntity -> {
-            poEntity.setStatus(PurchaseOrderStatus.GOODS_SHELVED);
-            purchaseOrderRepository.save(poEntity);
+        purchaseInvoiceRepository.findById(purchaseOrderId).ifPresent(poEntity -> {
+            poEntity.setStatus(PurchaseInvoiceStatus.GOODS_SHELVED);
+            purchaseInvoiceRepository.save(poEntity);
             inventoryService.shelve(poEntity);
         });
 
@@ -39,12 +38,12 @@ public class PurchaseOrderService {
 
 
     public PurchaseOrderDto getPurchaseOrderById(Long id) {
-        PurchaseOrder poEntity = purchaseOrderRepository.findById(id).orElseThrow(() -> new PurchaseOrderNotFound("Purchase Order not found"));
+        PurchaseInvoice poEntity = purchaseInvoiceRepository.findById(id).orElseThrow(() -> new PurchaseInvoiceNotFound("Purchase Order not found"));
         return INSTANCE.toPurchaseOrderDto(poEntity);
     }
 
     public List<PurchaseOrderDto> getAllPurchaseOrders() {
-        return INSTANCE.toPurchaseOrderDtoList(purchaseOrderRepository.findAll());
+        return INSTANCE.toPurchaseOrderDtoList(purchaseInvoiceRepository.findAll());
     }
 
 

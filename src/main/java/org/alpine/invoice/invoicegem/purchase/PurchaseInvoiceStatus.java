@@ -1,6 +1,6 @@
-package org.alpine.invoice.invoicegem.constant;
+package org.alpine.invoice.invoicegem.purchase;
 
-public enum PurchaseOrderStatus {
+public enum PurchaseInvoiceStatus {
     CREATED,
     GOODS_PENDING_DELIVERY,
     GOODS_RECEIVED,

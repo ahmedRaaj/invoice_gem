@@ -18,7 +18,7 @@ import java.time.LocalDate;
 public class BillPayment extends AlpineEntity {
     @ManyToOne
     @JoinColumn(name = "purchase_order_id")
-    private PurchaseOrder purchaseOrder;
+    private PurchaseInvoice purchaseInvoice;
 
     private LocalDate paymentDate;
     private BigDecimal amount;

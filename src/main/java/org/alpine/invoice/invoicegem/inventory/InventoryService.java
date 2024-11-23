@@ -7,8 +7,8 @@ import org.alpine.invoice.invoicegem.inventory.repository.InventoryItemEntityRep
 import org.alpine.invoice.invoicegem.inventory.util.InventoryItemStatus;
 import org.alpine.invoice.invoicegem.inventory.util.InventoryTransactionStatus;
 import org.alpine.invoice.invoicegem.inventory.util.InventoryTransactionType;
-import org.alpine.invoice.invoicegem.purchase.entity.PurchaseOrder;
-import org.alpine.invoice.invoicegem.purchase.entity.PurchaseOrderLineItem;
+import org.alpine.invoice.invoicegem.purchase.entity.PurchaseInvoice;
+import org.alpine.invoice.invoicegem.purchase.entity.PurchaseInvoiceLineItem;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -21,7 +21,7 @@ public class InventoryService {
 
     private final InventoryItemEntityRepository inventoryItemRepository;
 
-    private final Function<PurchaseOrderLineItem,InventoryItemEntity> poLineItemToInventoryItemMapper = (poLineItem)->{
+    private final Function<PurchaseInvoiceLineItem,InventoryItemEntity> poLineItemToInventoryItemMapper = (poLineItem)->{
         InventoryItemEntity invItem = new InventoryItemEntity();
         invItem.setProductEntity(poLineItem.getProductEntity());
         invItem.setInventoryItemStatus(InventoryItemStatus.PLACED);
@@ -40,13 +40,13 @@ public class InventoryService {
         return invItem;
     };
 
-    public void shelve(PurchaseOrder newOrder) {
+    public void shelve(PurchaseInvoice newOrder) {
         List<InventoryItemEntity> inventoryItemEntities = creteInventoryFromIncomingOrder(newOrder);
         inventoryItemRepository.saveAll(inventoryItemEntities);
     }
 
-    private List<InventoryItemEntity> creteInventoryFromIncomingOrder(PurchaseOrder newOrder) {
-       return newOrder.getPurchaseOrderLineItems().stream().map(poLineItemToInventoryItemMapper)
+    private List<InventoryItemEntity> creteInventoryFromIncomingOrder(PurchaseInvoice newOrder) {
+       return newOrder.getPurchaseInvoiceLineItems().stream().map(poLineItemToInventoryItemMapper)
                 .collect(Collectors.toList());
     }
 }

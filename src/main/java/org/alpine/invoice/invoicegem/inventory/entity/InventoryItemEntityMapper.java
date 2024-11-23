@@ -1,6 +1,7 @@
 package org.alpine.invoice.invoicegem.inventory.entity;
 
-import org.mapstruct.*;
+import org.mapstruct.Mapper;
+import org.mapstruct.MappingTarget;
 
 @Mapper
 public interface InventoryItemEntityMapper {

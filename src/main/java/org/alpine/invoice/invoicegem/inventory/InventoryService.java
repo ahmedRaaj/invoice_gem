@@ -7,13 +7,11 @@ import org.alpine.invoice.invoicegem.inventory.repository.InventoryItemEntityRep
 import org.alpine.invoice.invoicegem.inventory.util.InventoryItemStatus;
 import org.alpine.invoice.invoicegem.inventory.util.InventoryTransactionStatus;
 import org.alpine.invoice.invoicegem.inventory.util.InventoryTransactionType;
-import org.alpine.invoice.invoicegem.purchase.PurchaseOrderRepository;
 import org.alpine.invoice.invoicegem.purchase.entity.PurchaseOrder;
 import org.alpine.invoice.invoicegem.purchase.entity.PurchaseOrderLineItem;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.function.BiConsumer;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 

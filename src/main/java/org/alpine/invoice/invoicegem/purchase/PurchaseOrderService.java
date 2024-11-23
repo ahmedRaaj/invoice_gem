@@ -3,10 +3,9 @@ package org.alpine.invoice.invoicegem.purchase;
 import lombok.AllArgsConstructor;
 import org.alpine.invoice.invoicegem.constant.PurchaseOrderStatus;
 import org.alpine.invoice.invoicegem.inventory.InventoryService;
+import org.alpine.invoice.invoicegem.product.ProductService;
 import org.alpine.invoice.invoicegem.purchase.dto.PurchaseOrderDto;
 import org.alpine.invoice.invoicegem.purchase.entity.PurchaseOrder;
-import org.alpine.invoice.invoicegem.product.ProductService;
-import org.alpine.invoice.invoicegem.purchase.entity.PurchaseOrderLineItem;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -21,11 +20,12 @@ public class PurchaseOrderService {
     private final InventoryService inventoryService;
 
 
-    public void createPurchaseOrder(PurchaseOrderDto purchaseOrderDto) {
+    public Long createPurchaseOrder(PurchaseOrderDto purchaseOrderDto) {
         productService.insertProductRecordIfMissing(INSTANCE.toProductDtoList(purchaseOrderDto.getLineItems()));
         PurchaseOrder poEntity = INSTANCE.toPurchaseOrderEntity(purchaseOrderDto);
         poEntity.setStatus(PurchaseOrderStatus.CREATED);
         purchaseOrderRepository.save(poEntity);
+        return poEntity.getId();
     }
 
     public void shelvePurchasedItems(Long purchaseOrderId) {

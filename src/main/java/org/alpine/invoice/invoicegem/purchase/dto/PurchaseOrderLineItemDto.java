@@ -1,6 +1,5 @@
 package org.alpine.invoice.invoicegem.purchase.dto;
 
-import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 

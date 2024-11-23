@@ -1,8 +1,8 @@
 package org.alpine.invoice.invoicegem.repository;
 
-import org.alpine.invoice.invoicegem.product.repository.ProductRepository;
 import org.alpine.invoice.invoicegem.product.entity.CategoryEntity;
 import org.alpine.invoice.invoicegem.product.entity.ProductEntity;
+import org.alpine.invoice.invoicegem.product.repository.ProductRepository;
 import org.assertj.core.api.Assertions;
 import org.instancio.Instancio;
 import org.junit.jupiter.api.Test;

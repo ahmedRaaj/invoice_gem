@@ -1,8 +1,10 @@
 package org.alpine.invoice.invoicegem.product.entity;
 
 
-import jakarta.persistence.*;
-import lombok.Builder;
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Entity;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import lombok.Getter;
 import lombok.Setter;
 import org.alpine.invoice.invoicegem.entity.AlpineEntity;

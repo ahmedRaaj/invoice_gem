@@ -2,7 +2,10 @@ package org.alpine.invoice.invoicegem.purchase;
 
 import org.alpine.invoice.invoicegem.constant.PurchaseOrderStatus;
 import org.alpine.invoice.invoicegem.inventory.InventoryService;
+import org.alpine.invoice.invoicegem.inventory.entity.InventoryItemEntity;
+import org.alpine.invoice.invoicegem.inventory.entity.InventoryItemTransactionEntity;
 import org.alpine.invoice.invoicegem.inventory.repository.InventoryItemEntityRepository;
+import org.alpine.invoice.invoicegem.inventory.util.InventoryTransactionStatus;
 import org.alpine.invoice.invoicegem.product.ProductService;
 import org.alpine.invoice.invoicegem.product.entity.CategoryEntity;
 import org.alpine.invoice.invoicegem.product.entity.ProductEntity;
@@ -21,6 +24,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.Import;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import static org.alpine.invoice.invoicegem.util.TestData.*;
@@ -113,10 +117,19 @@ class PurchaseOrderServiceTest {
         PurchaseOrderDto purchseOrderDto = createPurchseOrderDto(PRODUCT_NAME, CATEGORY_NAME);
         Long poId = purchaseOrderService.createPurchaseOrder(purchseOrderDto);
         purchaseOrderService.shelvePurchasedItems(poId);
-        Assertions.assertThat(inventoryItemEntityRepository.count()).isEqualTo(purchseOrderDto.getLineItems().size());
+        Assertions.assertThat(inventoryItemEntityRepository.count()).isEqualTo(1);
        Assertions.assertThat( purchaseOrderRepository.findById(poId).get().getStatus())
                .isEqualTo(PurchaseOrderStatus.GOODS_SHELVED);
 
+        List<InventoryItemEntity> inventoryList = inventoryItemEntityRepository.findAll();
+        Assertions.assertThat(inventoryList.getFirst().getInventoryItems())
+               .extracting(InventoryItemTransactionEntity::getTransactionStatus)
+               .containsOnly(InventoryTransactionStatus.APPROVED);
+
+        BigDecimal inventoryUnitPrice = inventoryList.getFirst().getInventoryItems().getFirst()
+                .getUnitPrice();
+        Assertions.assertThat(inventoryUnitPrice)
+                .isEqualTo(purchseOrderDto.getLineItems().getFirst().getUnitPrice());
 
 
     }

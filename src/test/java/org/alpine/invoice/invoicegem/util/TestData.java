@@ -1,7 +1,7 @@
 package org.alpine.invoice.invoicegem.util;
 
 import org.alpine.invoice.invoicegem.product.entity.CategoryEntity;
-import org.alpine.invoice.invoicegem.product.entity.ProductEntity;
+import org.alpine.invoice.invoicegem.product.entity.SupplierPart;
 import org.alpine.invoice.invoicegem.purchase.dto.PurchaseOrderDto;
 import org.alpine.invoice.invoicegem.purchase.dto.PurchaseOrderLineItemDto;
 import org.instancio.Instancio;
@@ -12,8 +12,8 @@ public class TestData {
 
     public static final String PRODUCT_NAME = "test";
     public static final String CATEGORY_NAME = "testCategory";
-    public static ProductEntity createProductWithCategory(String name, String categoryName) {
-        ProductEntity product = new ProductEntity(name);
+    public static SupplierPart createProductWithCategory(String name, String categoryName) {
+        SupplierPart product = new SupplierPart(name);
         CategoryEntity category = new CategoryEntity(categoryName);
         product.setCategoryEntity(category);
         return product;

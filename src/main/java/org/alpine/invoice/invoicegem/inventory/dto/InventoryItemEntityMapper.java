@@ -1,5 +1,6 @@
-package org.alpine.invoice.invoicegem.inventory.entity;
+package org.alpine.invoice.invoicegem.inventory.dto;
 
+import org.alpine.invoice.invoicegem.inventory.entity.InventoryItemEntity;
 import org.mapstruct.Mapper;
 import org.mapstruct.MappingTarget;
 

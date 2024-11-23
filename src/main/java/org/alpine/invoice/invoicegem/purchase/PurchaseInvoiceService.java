@@ -2,7 +2,7 @@ package org.alpine.invoice.invoicegem.purchase;
 
 import lombok.AllArgsConstructor;
 import org.alpine.invoice.invoicegem.inventory.InventoryService;
-import org.alpine.invoice.invoicegem.product.ProductService;
+import org.alpine.invoice.invoicegem.product.SupplierPartService;
 import org.alpine.invoice.invoicegem.purchase.dto.PurchaseOrderDto;
 import org.alpine.invoice.invoicegem.purchase.entity.PurchaseInvoice;
 import org.springframework.stereotype.Service;
@@ -15,12 +15,12 @@ import static org.alpine.invoice.invoicegem.purchase.PurchaseInvoiceMapper.INSTA
 @AllArgsConstructor
 public class PurchaseInvoiceService {
     private final PurchaseInvoiceRepository purchaseInvoiceRepository;
-    private final ProductService productService;
+    private final SupplierPartService supplierPartService;
     private final InventoryService inventoryService;
 
 
     public Long createPurchaseOrder(PurchaseOrderDto purchaseOrderDto) {
-        productService.insertProductRecordIfMissing(INSTANCE.toProductDtoList(purchaseOrderDto.getLineItems()));
+        supplierPartService.insertProductRecordIfMissing(INSTANCE.toProductDtoList(purchaseOrderDto.getLineItems()));
         PurchaseInvoice poEntity = INSTANCE.toPurchaseOrderEntity(purchaseOrderDto);
         poEntity.setStatus(PurchaseInvoiceStatus.CREATED);
         purchaseInvoiceRepository.save(poEntity);

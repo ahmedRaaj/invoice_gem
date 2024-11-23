@@ -21,9 +21,13 @@ public class InventoryItemTransactionEntity extends AlpineEntity {
     @Enumerated(EnumType.STRING)
     private InventoryTransactionType transactionType;
     private Long quantity;
+
+    //todo to remove below attributes later.
     private BigDecimal unitPrice;
-    private BigDecimal taxRate;
-    private BigDecimal discountRate;
+    private BigDecimal taxRate = BigDecimal.ZERO;
+    private BigDecimal discountRate = BigDecimal.ZERO;
+    //remove all above
+
     private LocalDate transactionDate = LocalDate.now();
     @Enumerated(EnumType.STRING)
     private InventoryTransactionStatus transactionStatus;

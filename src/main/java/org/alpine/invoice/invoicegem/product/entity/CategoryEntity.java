@@ -16,7 +16,7 @@ public class CategoryEntity extends AlpineEntity {
     private String name;
     private String description;
     @OneToMany(mappedBy = "id" )
-    private List<ProductEntity> productEntities;
+    private List<SupplierPart> productEntities;
 
     public CategoryEntity() {
     }

@@ -6,11 +6,8 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
-import org.alpine.invoice.invoicegem.entity.AlpineEntity;
 import org.alpine.invoice.invoicegem.entity.InvoiceLineItem;
-import org.alpine.invoice.invoicegem.product.entity.ProductEntity;
-
-import java.math.BigDecimal;
+import org.alpine.invoice.invoicegem.product.entity.SupplierPart;
 
 @Getter
 @Setter
@@ -23,7 +20,7 @@ public class PurchaseInvoiceLineItem extends InvoiceLineItem {
 
     @ManyToOne
     @JoinColumn(name = "product_id")
-    private ProductEntity productEntity;
+    private SupplierPart supplierPart;
 
 
 

@@ -1,7 +1,8 @@
-package org.alpine.invoice.invoicegem.inventory.entity;
+package org.alpine.invoice.invoicegem.inventory.dto;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
+import org.alpine.invoice.invoicegem.inventory.entity.InventoryItemEntity;
 import org.alpine.invoice.invoicegem.inventory.util.InventoryItemStatus;
 
 import java.io.Serial;

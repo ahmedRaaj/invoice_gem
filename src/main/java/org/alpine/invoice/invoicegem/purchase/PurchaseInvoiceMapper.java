@@ -1,6 +1,6 @@
 package org.alpine.invoice.invoicegem.purchase;
 
-import org.alpine.invoice.invoicegem.product.dto.ProductDto;
+import org.alpine.invoice.invoicegem.product.dto.SupplierPartDto;
 import org.alpine.invoice.invoicegem.purchase.dto.PurchaseOrderDto;
 import org.alpine.invoice.invoicegem.purchase.dto.PurchaseOrderLineItemDto;
 import org.alpine.invoice.invoicegem.purchase.entity.PurchaseInvoice;
@@ -27,7 +27,7 @@ public interface PurchaseInvoiceMapper {
 
     @Mapping(target = "name",source = "productName")
     @Mapping(target = "categoryName",source = "categoryName")
-    ProductDto toProductDto(PurchaseOrderLineItemDto purchaseOrderLineItemDto);
+    SupplierPartDto toProductDto(PurchaseOrderLineItemDto purchaseOrderLineItemDto);
 
-    List<ProductDto> toProductDtoList(List<PurchaseOrderLineItemDto> purchaseOrderLineItemDtoList);
+    List<SupplierPartDto> toProductDtoList(List<PurchaseOrderLineItemDto> purchaseOrderLineItemDtoList);
   }

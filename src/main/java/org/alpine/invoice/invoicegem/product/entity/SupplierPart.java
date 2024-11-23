@@ -9,17 +9,15 @@ import lombok.Getter;
 import lombok.Setter;
 import org.alpine.invoice.invoicegem.entity.AlpineEntity;
 
-import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 @Entity
 @Getter
 @Setter
-public class ProductEntity extends AlpineEntity {
+public class SupplierPart extends AlpineEntity {
 
     private String name;
     private String description;
-    private BigDecimal price;
     private String imagePath;
     @ManyToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "category_id")
@@ -27,9 +25,9 @@ public class ProductEntity extends AlpineEntity {
 
     private LocalDateTime createdAt = LocalDateTime.now();
 
-    public ProductEntity(String name) {
+    public SupplierPart(String name) {
         this.name = name;
     }
-    public ProductEntity() {}
+    public SupplierPart() {}
 
 }

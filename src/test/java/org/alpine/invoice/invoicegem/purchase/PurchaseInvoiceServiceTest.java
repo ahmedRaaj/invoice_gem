@@ -5,9 +5,9 @@ import org.alpine.invoice.invoicegem.inventory.entity.InventoryItemEntity;
 import org.alpine.invoice.invoicegem.inventory.entity.InventoryItemTransactionEntity;
 import org.alpine.invoice.invoicegem.inventory.repository.InventoryItemEntityRepository;
 import org.alpine.invoice.invoicegem.inventory.util.InventoryTransactionStatus;
-import org.alpine.invoice.invoicegem.product.ProductService;
+import org.alpine.invoice.invoicegem.product.SupplierPartService;
 import org.alpine.invoice.invoicegem.product.entity.CategoryEntity;
-import org.alpine.invoice.invoicegem.product.entity.ProductEntity;
+import org.alpine.invoice.invoicegem.product.entity.SupplierPart;
 import org.alpine.invoice.invoicegem.product.repository.CategoryRepository;
 import org.alpine.invoice.invoicegem.product.repository.ProductRepository;
 import org.alpine.invoice.invoicegem.purchase.dto.PurchaseOrderDto;
@@ -30,7 +30,7 @@ import static org.alpine.invoice.invoicegem.util.TestData.*;
 
 
 @DataJpaTest
-@Import({ProductService.class, InventoryService.class})
+@Import({SupplierPartService.class, InventoryService.class})
 class PurchaseInvoiceServiceTest {
 
 
@@ -46,13 +46,13 @@ class PurchaseInvoiceServiceTest {
 
     private PurchaseInvoiceService purchaseInvoiceService;
     @Autowired
-    private ProductService productService;
+    private SupplierPartService supplierPartService;
     @Autowired
     private InventoryService inventoryService;
 
     @BeforeEach
     void setUp() {
-        purchaseInvoiceService = new PurchaseInvoiceService(purchaseInvoiceRepository,productService,inventoryService);
+        purchaseInvoiceService = new PurchaseInvoiceService(purchaseInvoiceRepository, supplierPartService,inventoryService);
     }
 
     @Test
@@ -67,7 +67,7 @@ class PurchaseInvoiceServiceTest {
         Assertions.assertThat(productRepository.count()).isEqualTo(1);
         Assertions.assertThat(categoryRepository.count()).isEqualTo(1);
 
-        Assertions.assertThat(productRepository.findAll()).extracting(ProductEntity::getName).containsOnly("test");
+        Assertions.assertThat(productRepository.findAll()).extracting(SupplierPart::getName).containsOnly("test");
         Assertions.assertThat(categoryRepository.findAll()).extracting(CategoryEntity::getName).containsOnly(CATEGORY_NAME);
         List<PurchaseInvoice> allPo = purchaseInvoiceRepository.findAll();
         Assertions.assertThat(allPo).extracting(PurchaseInvoice::getInvoiceNumber).containsOnly(poDto.getInvoiceNumber());
@@ -96,7 +96,7 @@ class PurchaseInvoiceServiceTest {
         Assertions.assertThat(productRepository.count()).isEqualTo(1);
         Assertions.assertThat(categoryRepository.count()).isEqualTo(1);
 
-        Assertions.assertThat(productRepository.findAll()).extracting(ProductEntity::getName).containsOnly("test");
+        Assertions.assertThat(productRepository.findAll()).extracting(SupplierPart::getName).containsOnly("test");
         Assertions.assertThat(categoryRepository.findAll()).extracting(CategoryEntity::getName).containsOnly(CATEGORY_NAME);
         List<PurchaseInvoice> allPo = purchaseInvoiceRepository.findAll();
         Assertions.assertThat(allPo).extracting(PurchaseInvoice::getInvoiceNumber).containsOnly(poDto.getInvoiceNumber());

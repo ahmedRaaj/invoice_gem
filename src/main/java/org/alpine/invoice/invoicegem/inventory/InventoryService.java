@@ -23,9 +23,8 @@ public class InventoryService {
 
     private final Function<PurchaseInvoiceLineItem,InventoryItemEntity> poLineItemToInventoryItemMapper = (poLineItem)->{
         InventoryItemEntity invItem = new InventoryItemEntity();
-        invItem.setProductEntity(poLineItem.getProductEntity());
+        invItem.setSupplierPart(poLineItem.getSupplierPart());
         invItem.setInventoryItemStatus(InventoryItemStatus.PLACED);
-        invItem.setPurchasePrice(poLineItem.getTotalPrice());
 
         InventoryItemTransactionEntity transaction = new InventoryItemTransactionEntity();
         transaction.setInventoryItemEntity(invItem);

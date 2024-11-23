@@ -11,17 +11,17 @@ import java.util.List;
 @Entity
 @Setter
 @Getter
-public class Category extends AlpineEntity {
+public class CategoryEntity extends AlpineEntity {
 
     private String name;
     private String description;
     @OneToMany(mappedBy = "id" )
-    private List<Product> products;
+    private List<ProductEntity> productEntities;
 
-    public Category() {
+    public CategoryEntity() {
     }
 
-    public Category(String name) {
+    public CategoryEntity(String name) {
         this.name = name;
     }
 }

@@ -8,6 +8,7 @@ import java.util.List;
 @Data
 public class PurchaseOrderDto {
 
+    private Long id;
     private String orderNumber;
     private LocalDate orderDate;
     private BigDecimal totalOrderAmountBeforeTax;

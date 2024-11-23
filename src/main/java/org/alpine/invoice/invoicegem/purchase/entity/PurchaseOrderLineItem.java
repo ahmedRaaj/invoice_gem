@@ -7,7 +7,7 @@ import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
 import org.alpine.invoice.invoicegem.entity.AlpineEntity;
-import org.alpine.invoice.invoicegem.product.entity.Product;
+import org.alpine.invoice.invoicegem.product.entity.ProductEntity;
 
 import java.math.BigDecimal;
 
@@ -22,9 +22,9 @@ public class PurchaseOrderLineItem extends AlpineEntity {
 
     @ManyToOne
     @JoinColumn(name = "product_id")
-    private Product product;
+    private ProductEntity productEntity;
 
-    private Integer quantity;
+    private Long quantity;
     private BigDecimal unitPrice;
     private BigDecimal totalPrice;
     private BigDecimal tax;

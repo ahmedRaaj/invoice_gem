@@ -1,6 +1,6 @@
 package org.alpine.invoice.invoicegem.product.dto;
 
-import org.alpine.invoice.invoicegem.product.entity.Product;
+import org.alpine.invoice.invoicegem.product.entity.ProductEntity;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 
@@ -8,5 +8,5 @@ import org.mapstruct.factory.Mappers;
 public interface ProductMapper {
 
     ProductMapper INSTANCE = Mappers.getMapper( ProductMapper.class );
-    Product productDtoToProduct(ProductDto productDto);
+    ProductEntity productDtoToProduct(ProductDto productDto);
 }

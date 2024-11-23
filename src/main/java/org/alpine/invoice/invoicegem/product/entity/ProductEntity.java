@@ -2,6 +2,7 @@ package org.alpine.invoice.invoicegem.product.entity;
 
 
 import jakarta.persistence.*;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 import org.alpine.invoice.invoicegem.entity.AlpineEntity;
@@ -12,7 +13,7 @@ import java.time.LocalDateTime;
 @Entity
 @Getter
 @Setter
-public class Product extends AlpineEntity {
+public class ProductEntity extends AlpineEntity {
 
     private String name;
     private String description;
@@ -20,7 +21,13 @@ public class Product extends AlpineEntity {
     private String imagePath;
     @ManyToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "category_id")
-    private Category category;
+    private CategoryEntity categoryEntity;
 
     private LocalDateTime createdAt = LocalDateTime.now();
+
+    public ProductEntity(String name) {
+        this.name = name;
+    }
+    public ProductEntity() {}
+
 }
